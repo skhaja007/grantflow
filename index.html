@@ -8,22 +8,57 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
         * { font-family: 'Inter', sans-serif; }
-        .wallet-btn {
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-            transition: all 0.3s ease;
+        
+        body {
+            background: #f5f5f5;
         }
-        .wallet-btn:hover {
-            transform: scale(1.02);
-            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+        
+        .sidebar {
+            background: white;
+            border-right: 1px solid #e5e7eb;
         }
+        
         .card {
-            backdrop-filter: blur(10px);
+            background: white;
             transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
         }
+        
         .card:hover {
             transform: translateY(-4px);
-            border-color: rgba(139, 92, 246, 0.5);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: #8b5cf6;
         }
+        
+        .wallet-btn {
+            background: #8b5cf6;
+            transition: all 0.3s ease;
+        }
+        
+        .wallet-btn:hover {
+            background: #7c3aed;
+            transform: scale(1.02);
+        }
+        
+        .stat-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .category-btn-active {
+            background: #8b5cf6;
+            color: white;
+        }
+        
+        .category-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .category-btn:hover {
+            background: #f3f4f6;
+            color: #8b5cf6;
+        }
+        
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -35,9 +70,16 @@
                 transform: translateX(0);
             }
         }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
     </style>
 </head>
-<body class="bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 min-h-screen">
+<body class="bg-gray-50">
 
     <!-- Mobile Menu Button -->
     <button onclick="toggleSidebar()" class="fixed top-4 left-4 z-50 md:hidden bg-purple-600 p-2 rounded-lg shadow-lg">
@@ -47,26 +89,28 @@
     </button>
 
     <!-- Sidebar -->
-    <div id="sidebar" class="sidebar fixed inset-y-0 left-0 w-72 bg-gray-900/95 border-r border-purple-500/20 p-6 overflow-y-auto" style="backdrop-filter: blur(20px);">
-        <h1 class="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">GrantFlow</h1>
-        <p class="text-gray-400 text-sm mb-8">Solana Grants. One Dashboard.</p>
+    <div id="sidebar" class="sidebar fixed inset-y-0 left-0 w-72 bg-white border-r border-gray-200 p-6 overflow-y-auto">
+        <h1 class="text-2xl font-bold gradient-text mb-2">GrantFlow</h1>
+        <p class="text-gray-500 text-sm mb-8">Solana Grants. One Dashboard.</p>
 
-        <nav class="space-y-3 mb-8">
-            <a href="#" class="block text-gray-300 hover:text-purple-400 transition py-2">📊 Dashboard</a>
-            <a href="#" class="block text-gray-300 hover:text-purple-400 transition py-2">🎯 All Grants</a>
-            <a href="#" class="block text-gray-300 hover:text-purple-400 transition py-2">📝 My Applications</a>
-            <a href="#" class="block text-gray-300 hover:text-purple-400 transition py-2">⭐ Saved Grants</a>
-            <a href="#" class="block text-gray-300 hover:text-purple-400 transition py-2">📈 Analytics</a>
+        <nav class="space-y-2 mb-8">
+            <a href="#" class="block text-gray-700 hover:text-purple-600 transition py-2 font-medium">📊 Dashboard</a>
+            <a href="#" class="block text-gray-700 hover:text-purple-600 transition py-2">🎯 All Grants</a>
+            <a href="#" class="block text-gray-700 hover:text-purple-600 transition py-2">📝 My Applications</a>
+            <a href="#" class="block text-gray-700 hover:text-purple-600 transition py-2">⭐ Saved Grants</a>
+            <a href="#" class="block text-gray-700 hover:text-purple-600 transition py-2">📈 Analytics</a>
+            <a href="#" class="block text-gray-700 hover:text-purple-600 transition py-2">🔔 Notifications</a>
         </nav>
 
         <div class="mb-8">
-            <h3 class="text-sm font-semibold text-gray-400 mb-3">Categories</h3>
-            <div id="categoryList" class="space-y-2"></div>
+            <h3 class="text-sm font-semibold text-gray-500 mb-3">Categories</h3>
+            <div id="categoryList" class="space-y-1"></div>
         </div>
 
-        <div class="pt-4 border-t border-purple-500/20">
-            <h3 class="text-sm font-semibold text-gray-400 mb-2">Stay Updated</h3>
-            <button onclick="enableNotifications()" class="w-full bg-purple-600/20 text-purple-400 px-4 py-2 rounded-xl text-sm hover:bg-purple-600/30 transition">
+        <div class="pt-4 border-t border-gray-200">
+            <h3 class="text-sm font-semibold text-gray-500 mb-2">Stay Updated</h3>
+            <p class="text-xs text-gray-400 mb-3">Get notified about new grants and updates.</p>
+            <button onclick="enableNotifications()" class="w-full bg-purple-600 text-white px-4 py-2 rounded-xl text-sm hover:bg-purple-700 transition">
                 🔔 Enable Notifications
             </button>
         </div>
@@ -77,8 +121,8 @@
         <!-- Header -->
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
             <div>
-                <h2 class="text-3xl md:text-4xl font-bold text-white">Discover. Track. Win.</h2>
-                <p class="text-gray-400 mt-1">All Solana grants in one place. Find the right opportunities and build the future.</p>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Discover. Track. Win.</h2>
+                <p class="text-gray-500 mt-1">All Solana grants in one place. Find the right opportunities and build the future.</p>
             </div>
             <button id="walletBtn" onclick="connectWallet()" class="wallet-btn text-white px-6 py-3 rounded-xl font-medium shadow-lg">
                 🔗 Connect Wallet
@@ -87,34 +131,34 @@
 
         <!-- Stats -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div class="bg-white/5 backdrop-blur rounded-2xl p-4 border border-purple-500/20">
-                <p id="totalGrants" class="text-2xl md:text-3xl font-bold text-purple-400">0</p>
-                <p class="text-xs text-gray-400">Total Grants</p>
+            <div class="stat-card bg-white rounded-2xl p-4 shadow-sm">
+                <p id="totalGrants" class="text-3xl font-bold text-purple-600">0</p>
+                <p class="text-sm text-gray-500">Total Grants</p>
             </div>
-            <div class="bg-white/5 backdrop-blur rounded-2xl p-4 border border-purple-500/20">
-                <p class="text-2xl md:text-3xl font-bold text-purple-400">$6.25M</p>
-                <p class="text-xs text-gray-400">Total Funding</p>
+            <div class="stat-card bg-white rounded-2xl p-4 shadow-sm">
+                <p class="text-3xl font-bold text-purple-600">$6.25M</p>
+                <p class="text-sm text-gray-500">Total Funding</p>
             </div>
-            <div class="bg-white/5 backdrop-blur rounded-2xl p-4 border border-purple-500/20">
-                <p class="text-2xl md:text-3xl font-bold text-purple-400">3</p>
-                <p class="text-xs text-gray-400">Grants Submitted</p>
+            <div class="stat-card bg-white rounded-2xl p-4 shadow-sm">
+                <p class="text-3xl font-bold text-purple-600">3</p>
+                <p class="text-sm text-gray-500">Grants Submitted</p>
             </div>
-            <div class="bg-white/5 backdrop-blur rounded-2xl p-4 border border-purple-500/20">
-                <p class="text-2xl md:text-3xl font-bold text-purple-400">12</p>
-                <p class="text-xs text-gray-400">Projects Tracked</p>
+            <div class="stat-card bg-white rounded-2xl p-4 shadow-sm">
+                <p class="text-3xl font-bold text-purple-600">12</p>
+                <p class="text-sm text-gray-500">Projects Tracked</p>
             </div>
         </div>
 
         <!-- Search and Filter -->
         <div class="flex flex-col md:flex-row gap-4 mb-8">
-            <input type="text" id="searchInput" placeholder="🔍 Search grants..." class="flex-1 bg-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-400 border border-purple-500/20 focus:outline-none focus:border-purple-500">
-            <select id="categoryFilter" class="bg-white/10 rounded-xl px-4 py-3 text-white border border-purple-500/20 focus:outline-none">
+            <input type="text" id="searchInput" placeholder="Search grants..." class="flex-1 bg-white rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 border border-gray-200 focus:outline-none focus:border-purple-500 shadow-sm">
+            <select id="categoryFilter" class="bg-white rounded-xl px-4 py-3 text-gray-900 border border-gray-200 focus:outline-none focus:border-purple-500 shadow-sm">
                 <option value="All">All Categories</option>
             </select>
-            <select id="sortFilter" class="bg-white/10 rounded-xl px-4 py-3 text-white border border-purple-500/20 focus:outline-none">
+            <select id="sortFilter" class="bg-white rounded-xl px-4 py-3 text-gray-900 border border-gray-200 focus:outline-none focus:border-purple-500 shadow-sm">
                 <option value="latest">Sort By: Latest</option>
                 <option value="deadline">Sort By: Deadline</option>
-                <option value="funding">Sort By: Funding</option>
+                <option value="funding">Sort By: Funding Amount</option>
             </select>
         </div>
 
@@ -126,36 +170,90 @@
     </div>
 
     <script>
-        // Complete Grant Data (ALL categories)
+        // 48 Grants - Complete Data
         const grants = [
+            // DeFi Grants (8)
             { id: 1, title: "Solana Foundation DeFi Grant", description: "Funding for DeFi protocols building on Solana.", category: "DeFi", organization: "Solana Foundation", funding: "$50k - $500k", deadline: "2-3 weeks left", daysLeft: 18, link: "https://solana.org/grants" },
-            { id: 2, title: "Colosseum Startup Grant", description: "Large grant for serious Solana infrastructure projects.", category: "Infrastructure", organization: "Colosseum", funding: "$100k - $1M", deadline: "4 weeks left", daysLeft: 28, link: "https://colosseum.org" },
-            { id: 3, title: "Superteam Creator Grant", description: "Create educational content about Solana.", category: "Content", organization: "Superteam Earn", funding: "$200 - $5k", deadline: "1 week left", daysLeft: 7, link: "https://superteam.fun/earn" },
-            { id: 4, title: "Metaplex NFT Grant", description: "Build NFT tools and infrastructure on Metaplex.", category: "NFT", organization: "Solana Foundation", funding: "$10k - $100k", deadline: "2 weeks left", daysLeft: 14, link: "https://metaplex.com" },
-            { id: 5, title: "Mobile Builders Grant", description: "Build mobile apps on Solana Mobile Stack.", category: "Mobile", organization: "Solana Foundation", funding: "$25k - $150k", deadline: "2 weeks left", daysLeft: 14, link: "https://solanamobile.com" },
-            { id: 6, title: "DAO Tooling Grant", description: "Build DAO management tools on Solana.", category: "DAO", organization: "Superteam Earn", funding: "$5k - $50k", deadline: "3 weeks left", daysLeft: 21, link: "https://superteam.fun" },
-            { id: 7, title: "Gaming Ecosystem Grant", description: "Build Web3 games on Solana.", category: "Gaming", organization: "Solana Gaming", funding: "$50k - $300k", deadline: "5 weeks left", daysLeft: 35, link: "https://solana.com/gaming" },
-            { id: 8, title: "Tools & Developer Grant", description: "Build developer tooling for Solana ecosystem.", category: "Tools", organization: "Solana Devs", funding: "$10k - $75k", deadline: "2 weeks left", daysLeft: 14, link: "https://solana.com/developers" },
-            { id: 9, title: "AI x Solana Grant", description: "Build AI agents and tools on Solana.", category: "AI", organization: "Superteam", funding: "$200 - $10k", deadline: "3 weeks left", daysLeft: 21, link: "https://superteam.fun" },
-            { id: 10, title: "Payments Innovation Grant", description: "Build payment solutions on Solana.", category: "Payments", organization: "Solana Foundation", funding: "$50k - $250k", deadline: "6 weeks left", daysLeft: 42, link: "https://solana.org/payments" },
-            { id: 11, title: "RWA Tokenization Grant", description: "Build Real World Asset tokenization on Solana.", category: "RWA", organization: "Solana Foundation", funding: "$100k - $500k", deadline: "8 weeks left", daysLeft: 56, link: "https://solana.org" },
-            { id: 12, title: "Privacy & ZK Grant", description: "Privacy-preserving applications on Solana.", category: "Privacy", organization: "Solana Foundation", funding: "$50k - $200k", deadline: "4 weeks left", daysLeft: 28, link: "https://solana.org" }
+            { id: 2, title: "MarginFi Ecosystem Grant", description: "Build on top of MarginFi lending protocol.", category: "DeFi", organization: "MarginFi", funding: "$25k - $200k", deadline: "3 weeks left", daysLeft: 21, link: "https://marginfi.io" },
+            { id: 3, title: "Jupiter Launchpad Grant", description: "Build trading tools and aggregators.", category: "DeFi", organization: "Jupiter", funding: "$50k - $500k", deadline: "4 weeks left", daysLeft: 28, link: "https://jup.ag" },
+            { id: 4, title: "Kamino DeFi Grant", description: "Build automated DeFi strategies.", category: "DeFi", organization: "Kamino", funding: "$10k - $100k", deadline: "2 weeks left", daysLeft: 14, link: "https://kamino.finance" },
+            { id: 5, title: "Drift Protocol Grant", description: "Build perpetual trading solutions.", category: "DeFi", organization: "Drift", funding: "$50k - $250k", deadline: "5 weeks left", daysLeft: 35, link: "https://drift.trade" },
+            { id: 6, title: "Raydium Liquidity Grant", description: "Build AMM and liquidity solutions.", category: "DeFi", organization: "Raydium", funding: "$25k - $150k", deadline: "3 weeks left", daysLeft: 21, link: "https://raydium.io" },
+            { id: 7, title: "Orca DeFi Grant", description: "Build concentrated liquidity tools.", category: "DeFi", organization: "Orca", funding: "$10k - $100k", deadline: "2 weeks left", daysLeft: 14, link: "https://orca.so" },
+            { id: 8, title: "Meteora DeFi Grant", description: "Build dynamic fee pool solutions.", category: "DeFi", organization: "Meteora", funding: "$20k - $150k", deadline: "4 weeks left", daysLeft: 28, link: "https://meteora.ag" },
+            
+            // NFT Grants (6)
+            { id: 9, title: "Metaplex NFT Grant", description: "Build NFT tools and infrastructure on Metaplex.", category: "NFT", organization: "Solana Foundation", funding: "$10k - $100k", deadline: "2 weeks left", daysLeft: 14, link: "https://metaplex.com" },
+            { id: 10, title: "Tensor NFT Grant", description: "Build NFT trading and analytics tools.", category: "NFT", organization: "Tensor", funding: "$25k - $200k", deadline: "3 weeks left", daysLeft: 21, link: "https://tensor.trade" },
+            { id: 11, title: "Magic Eden Creator Grant", description: "Build NFT creator tools.", category: "NFT", organization: "Magic Eden", funding: "$10k - $75k", deadline: "2 weeks left", daysLeft: 14, link: "https://magiceden.io" },
+            { id: 12, title: "Fractal Gaming NFT Grant", description: "Build NFT gaming infrastructure.", category: "NFT", organization: "Fractal", funding: "$50k - $300k", deadline: "6 weeks left", daysLeft: 42, link: "https://fractal.is" },
+            { id: 13, title: "Holaplex NFT Grant", description: "Build NFT storefront solutions.", category: "NFT", organization: "Holaplex", funding: "$5k - $50k", deadline: "1 week left", daysLeft: 7, link: "https://holaplex.com" },
+            { id: 14, title: "Crossmint NFT Grant", description: "Build NFT checkout solutions.", category: "NFT", organization: "Crossmint", funding: "$25k - $150k", deadline: "4 weeks left", daysLeft: 28, link: "https://crossmint.com" },
+            
+            // Infrastructure Grants (5)
+            { id: 15, title: "Colosseum Startup Grant", description: "Large grant for serious Solana infrastructure projects.", category: "Infrastructure", organization: "Colosseum", funding: "$100k - $1M", deadline: "4 weeks left", daysLeft: 28, link: "https://colosseum.org" },
+            { id: 16, title: "Helius RPC Grant", description: "Build on Helius RPC infrastructure.", category: "Infrastructure", organization: "Helius", funding: "$25k - $150k", deadline: "3 weeks left", daysLeft: 21, link: "https://helius.dev" },
+            { id: 17, title: "Triton RPC Grant", description: "Build high-performance RPC solutions.", category: "Infrastructure", organization: "Triton", funding: "$10k - $100k", deadline: "2 weeks left", daysLeft: 14, link: "https://triton.one" },
+            { id: 18, title: "QuickNode Grant", description: "Build infrastructure on QuickNode.", category: "Infrastructure", organization: "QuickNode", funding: "$50k - $250k", deadline: "5 weeks left", daysLeft: 35, link: "https://quicknode.com" },
+            { id: 19, title: "GenesysGo Grant", description: "Build storage and infrastructure solutions.", category: "Infrastructure", organization: "GenesysGo", funding: "$20k - $200k", deadline: "4 weeks left", daysLeft: 28, link: "https://genesysgo.com" },
+            
+            // Gaming Grants (5)
+            { id: 20, title: "Gaming Ecosystem Grant", description: "Build Web3 games on Solana.", category: "Gaming", organization: "Solana Gaming", funding: "$50k - $300k", deadline: "5 weeks left", daysLeft: 35, link: "https://solana.com/gaming" },
+            { id: 21, title: "Star Atlas Grant", description: "Build tools for Star Atlas ecosystem.", category: "Gaming", organization: "Star Atlas", funding: "$25k - $200k", deadline: "3 weeks left", daysLeft: 21, link: "https://staratlas.com" },
+            { id: 22, title: "Aurory Grant", description: "Build on Aurory game ecosystem.", category: "Gaming", organization: "Aurory", funding: "$10k - $100k", deadline: "2 weeks left", daysLeft: 14, link: "https://aurory.io" },
+            { id: 23, title: "Nitro League Grant", description: "Build racing game integrations.", category: "Gaming", organization: "Nitro League", funding: "$15k - $75k", deadline: "4 weeks left", daysLeft: 28, link: "https://nitroleague.com" },
+            { id: 24, title: "Solana GameFi Grant", description: "Build GameFi protocols and tools.", category: "Gaming", organization: "Solana GameFi", funding: "$30k - $250k", deadline: "6 weeks left", daysLeft: 42, link: "https://solana.com/gamefi" },
+            
+            // DAO Grants (4)
+            { id: 25, title: "DAO Tooling Grant", description: "Build DAO management tools on Solana.", category: "DAO", organization: "Superteam Earn", funding: "$5k - $50k", deadline: "3 weeks left", daysLeft: 21, link: "https://superteam.fun" },
+            { id: 26, title: "Realms DAO Grant", description: "Build on Realms DAO infrastructure.", category: "DAO", organization: "Realms", funding: "$10k - $100k", deadline: "2 weeks left", daysLeft: 14, link: "https://realms.today" },
+            { id: 27, title: "Bonk DAO Grant", description: "Build tools for Bonk ecosystem.", category: "DAO", organization: "Bonk DAO", funding: "$20k - $150k", deadline: "4 weeks left", daysLeft: 28, link: "https://bonkcoin.com" },
+            { id: 28, title: "Mango DAO Grant", description: "Build on Mango Markets DAO.", category: "DAO", organization: "Mango DAO", funding: "$15k - $100k", deadline: "3 weeks left", daysLeft: 21, link: "https://mango.markets" },
+            
+            // Content Grants (3)
+            { id: 29, title: "Superteam Creator Grant", description: "Create educational content about Solana.", category: "Content", organization: "Superteam Earn", funding: "$200 - $5k", deadline: "1 week left", daysLeft: 7, link: "https://superteam.fun/earn" },
+            { id: 30, title: "Solana Content Grant", description: "Create video and written content.", category: "Content", organization: "Solana Foundation", funding: "$1k - $25k", deadline: "3 weeks left", daysLeft: 21, link: "https://solana.org" },
+            { id: 31, title: "Hackathon Content Grant", description: "Cover Solana hackathons and events.", category: "Content", organization: "Solana", funding: "$500 - $10k", deadline: "2 weeks left", daysLeft: 14, link: "https://solana.com/hackathons" },
+            
+            // Mobile Grants (3)
+            { id: 32, title: "Mobile Builders Grant", description: "Build mobile apps on Solana Mobile Stack.", category: "Mobile", organization: "Solana Foundation", funding: "$25k - $150k", deadline: "2 weeks left", daysLeft: 14, link: "https://solanamobile.com" },
+            { id: 33, title: "Saga App Grant", description: "Build dApps for Solana Saga phone.", category: "Mobile", organization: "Solana Mobile", funding: "$10k - $75k", deadline: "4 weeks left", daysLeft: 28, link: "https://solanamobile.com" },
+            { id: 34, title: "Mobile Wallet Grant", description: "Build mobile wallet solutions.", category: "Mobile", organization: "Solana Foundation", funding: "$50k - $250k", deadline: "6 weeks left", daysLeft: 42, link: "https://solana.org" },
+            
+            // AI Grants (4)
+            { id: 35, title: "AI x Solana Grant", description: "Build AI agents and tools on Solana.", category: "AI", organization: "Superteam", funding: "$200 - $10k", deadline: "3 weeks left", daysLeft: 21, link: "https://superteam.fun" },
+            { id: 36, title: "Solana AI Agent Grant", description: "Build autonomous AI agents on Solana.", category: "AI", organization: "Solana AI", funding: "$25k - $200k", deadline: "5 weeks left", daysLeft: 35, link: "https://solana.com/ai" },
+            { id: 37, title: "Machine Learning Grant", description: "Build ML models for Solana.", category: "AI", organization: "Solana Foundation", funding: "$50k - $500k", deadline: "8 weeks left", daysLeft: 56, link: "https://solana.org" },
+            { id: 38, title: "AI Trading Grant", description: "Build AI-powered trading bots.", category: "AI", organization: "Solana DeFi", funding: "$10k - $100k", deadline: "4 weeks left", daysLeft: 28, link: "https://solana.com" },
+            
+            // Payments Grants (4)
+            { id: 39, title: "Payments Innovation Grant", description: "Build payment solutions on Solana.", category: "Payments", organization: "Solana Foundation", funding: "$50k - $250k", deadline: "6 weeks left", daysLeft: 42, link: "https://solana.org/payments" },
+            { id: 40, title: "Stripe x Solana Grant", description: "Build fiat on-ramp solutions.", category: "Payments", organization: "Stripe", funding: "$100k - $500k", deadline: "8 weeks left", daysLeft: 56, link: "https://stripe.com" },
+            { id: 41, title: "Mobile Payments Grant", description: "Build mobile payment solutions.", category: "Payments", organization: "Solana Mobile", funding: "$25k - $150k", deadline: "4 weeks left", daysLeft: 28, link: "https://solanamobile.com" },
+            { id: 42, title: "Remittance Grant", description: "Build cross-border payment solutions.", category: "Payments", organization: "Solana Foundation", funding: "$50k - $300k", deadline: "5 weeks left", daysLeft: 35, link: "https://solana.org" },
+            
+            // Tools Grants (6)
+            { id: 43, title: "Tools & Developer Grant", description: "Build developer tooling for Solana ecosystem.", category: "Tools", organization: "Solana Devs", funding: "$10k - $75k", deadline: "2 weeks left", daysLeft: 14, link: "https://solana.com/developers" },
+            { id: 44, title: "Anchor Framework Grant", description: "Build Anchor plugins and tools.", category: "Tools", organization: "Anchor", funding: "$25k - $150k", deadline: "4 weeks left", daysLeft: 28, link: "https://anchor-lang.com" },
+            { id: 45, title: "Solana Dev Tooling Grant", description: "Build CLI tools and SDKs.", category: "Tools", organization: "Solana Foundation", funding: "$10k - $100k", deadline: "3 weeks left", daysLeft: 21, link: "https://solana.org" },
+            { id: 46, title: "Indexing Tool Grant", description: "Build indexing solutions for Solana.", category: "Tools", organization: "Solana", funding: "$20k - $200k", deadline: "5 weeks left", daysLeft: 35, link: "https://solana.com" },
+            { id: 47, title: "Testing Tool Grant", description: "Build testing frameworks for Solana.", category: "Tools", organization: "Solana Devs", funding: "$15k - $100k", deadline: "4 weeks left", daysLeft: 28, link: "https://solana.com" },
+            { id: 48, title: "Wallet SDK Grant", description: "Build wallet integration SDKs.", category: "Tools", organization: "Solana Wallet", funding: "$10k - $75k", deadline: "2 weeks left", daysLeft: 14, link: "https://solana.com" }
         ];
 
-        const categories = ["All", "DeFi", "NFT", "Infrastructure", "Tools", "Gaming", "DAO", "Content", "Mobile", "AI", "Payments", "RWA", "Privacy"];
+        const categories = ["All", "DeFi", "NFT", "Infrastructure", "Tools", "Gaming", "DAO", "Content", "Mobile", "AI", "Payments"];
 
         let currentWallet = null;
         let searchTerm = "";
         let selectedCategory = "All";
         let sortBy = "latest";
 
-        // Render categories
         function renderCategories() {
             const categoryList = document.getElementById('categoryList');
             const categoryFilter = document.getElementById('categoryFilter');
             
             categoryList.innerHTML = categories.filter(c => c !== "All").map(cat => `
-                <button onclick="selectCategory('${cat}')" class="block w-full text-left px-3 py-1 rounded-lg text-sm transition ${selectedCategory === cat ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-purple-400'}">
+                <button onclick="selectCategory('${cat}')" class="category-btn block w-full text-left px-3 py-2 rounded-lg text-sm transition ${selectedCategory === cat ? 'bg-purple-600 text-white' : 'text-gray-600 hover:bg-gray-100'}>
                     ${cat}
                 </button>
             `).join('');
@@ -170,7 +268,6 @@
             renderGrants();
         }
 
-        // Render grants
         function renderGrants() {
             let filtered = grants;
             if (selectedCategory !== "All") {
@@ -180,7 +277,6 @@
                 filtered = filtered.filter(g => g.title.toLowerCase().includes(searchTerm.toLowerCase()) || g.description.toLowerCase().includes(searchTerm.toLowerCase()));
             }
             
-            // Sort
             if (sortBy === "deadline") {
                 filtered.sort((a, b) => a.daysLeft - b.daysLeft);
             } else if (sortBy === "funding") {
@@ -189,29 +285,28 @@
             
             const grid = document.getElementById('grantsGrid');
             if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center text-gray-400 py-12">✨ No grants found. Try a different search.</div>`;
+                grid.innerHTML = `<div class="col-span-full text-center text-gray-500 py-12">✨ No grants found. Try a different search.</div>`;
                 return;
             }
             
             grid.innerHTML = filtered.map(grant => `
-                <div class="card bg-white/5 backdrop-blur rounded-2xl p-6 border border-purple-500/20 hover:border-purple-500/50 transition-all">
+                <div class="card bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-all">
                     <div class="flex justify-between items-start mb-3">
-                        <span class="text-xs px-2 py-1 bg-purple-600/30 text-purple-300 rounded-full">${grant.category}</span>
-                        <span class="text-xs text-orange-400">⏰ ${grant.deadline}</span>
+                        <span class="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full font-medium">${grant.category}</span>
+                        <span class="text-xs text-orange-500">⏰ ${grant.deadline}</span>
                     </div>
-                    <h3 class="text-xl font-semibold text-white mb-2">${grant.title}</h3>
-                    <p class="text-gray-400 text-sm mb-3">${grant.description}</p>
-                    <p class="text-sm text-purple-400 mb-1">🏢 ${grant.organization}</p>
-                    <p class="text-lg font-bold text-green-400 mb-4">💰 ${grant.funding}</p>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">${grant.title}</h3>
+                    <p class="text-gray-500 text-sm mb-3">${grant.description}</p>
+                    <p class="text-sm text-purple-600 mb-1">🏢 ${grant.organization}</p>
+                    <p class="text-lg font-bold text-green-600 mb-4">💰 ${grant.funding}</p>
                     <div class="flex gap-3">
-                        <button onclick="viewDetails(${grant.id})" class="flex-1 bg-gray-700/50 hover:bg-gray-700 text-white py-2 rounded-xl text-sm transition">📋 Details</button>
-                        <button onclick="applyNow('${grant.link}')" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-xl text-sm font-medium transition">🚀 Apply</button>
+                        <button onclick="viewDetails(${grant.id})" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 rounded-xl text-sm transition">View Details</button>
+                        <button onclick="applyNow('${grant.link}')" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-xl text-sm font-medium transition">Apply Now</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        // Search and filter
         document.getElementById('searchInput').addEventListener('input', (e) => {
             searchTerm = e.target.value;
             renderGrants();
@@ -228,7 +323,6 @@
             renderGrants();
         });
 
-        // Wallet Connection
         function connectWallet() {
             if (window.solana && window.solana.isPhantom) {
                 window.solana.connect().then(resp => {
@@ -236,19 +330,19 @@
                     document.getElementById('walletBtn').innerHTML = `🟢 ${currentWallet.slice(0, 4)}...${currentWallet.slice(-4)}`;
                     const statusDiv = document.getElementById('walletStatus');
                     statusDiv.innerHTML = '✅ Wallet Connected Successfully!';
-                    statusDiv.className = 'fixed bottom-4 right-4 bg-green-500/20 text-green-400 px-4 py-2 rounded-full text-sm backdrop-blur';
+                    statusDiv.className = 'fixed bottom-4 right-4 bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm shadow-lg';
                     statusDiv.classList.remove('hidden');
                     setTimeout(() => statusDiv.classList.add('hidden'), 3000);
                 });
             } else {
-                alert("🔐 Please install Phantom Wallet from https://phantom.app/\n\nThen click Connect Wallet again!");
+                alert("🔐 Please install Phantom Wallet from https://phantom.app/");
                 window.open('https://phantom.app/', '_blank');
             }
         }
 
         function viewDetails(id) {
             const grant = grants.find(g => g.id === id);
-            alert(`📋 ${grant.title}\n\n${grant.description}\n\n🏢 ${grant.organization}\n💰 ${grant.funding}\n⏰ ${grant.deadline}\n\n🌐 Visit their website for full details!`);
+            alert(`📋 ${grant.title}\n\n${grant.description}\n\n🏢 ${grant.organization}\n💰 ${grant.funding}\n⏰ ${grant.deadline}\n\n🌐 Visit their website for full details and application!`);
         }
 
         function applyNow(link) {
@@ -276,7 +370,6 @@
             }
         }
 
-        // Initialize
         renderCategories();
         renderGrants();
     </script>
